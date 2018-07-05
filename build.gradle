@@ -1,0 +1,51 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'org.stathissideris.ascii2image.core.CommandLineConverter'
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'net.htmlparser.jericho:jericho-html:3.4'
+    implementation 'org.apache.xmlgraphics:batik-gvt:1.9'
+    implementation 'org.apache.xmlgraphics:batik-codec:1.9'
+    implementation 'org.apache.xmlgraphics:batik-bridge:1.9'
+
+    testImplementation 'junit:junit:4.12'
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}
+
+task mkexpected(type: JavaExec) {
+    main = 'org.stathissideris.ascii2image.test.GenerateExpectedImages'
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+clean {
+    delete fileTree('test-resources/images') {
+        include '*'
+        exclude '.gitkeep'
+    }
+}
