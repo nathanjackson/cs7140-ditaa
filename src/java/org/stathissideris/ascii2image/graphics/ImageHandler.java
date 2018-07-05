@@ -106,34 +106,5 @@ public class ImageHandler {
 		return svgRenderer.renderToImage(uri.toString(), width, height, stretch, idRegex, color);
 	}
 
-	
-	public static void main(String[] args) throws IOException{
-		
-		OffScreenSVGRenderer renderer = new OffScreenSVGRenderer();
-		
-		//BufferedImage image = instance.renderSVG("sphere.svg", 200, 200, false);
-		
-		//BufferedImage image = renderer.renderToImage("file:///Users/sideris/Documents/workspace/ditaa/joystick.svg", FileUtils.readFile(new File("joystick.svg")), 400, 200, false);
-//		BufferedImage image = renderer.renderToImage(
-//			null, FileUtils.readFile(new File("sphere.svg")).replaceFirst("#187637", "#3333FF"), 200, 200, false);
-		
-		String content = FileUtils.readFile(new File("sphere.svg")).replaceAll("#187637", "#1133FF");
-		
-		System.out.println(content);
-		
-//		BufferedImage image = renderer.renderToImage(
-//				"file:/K:/devel/ditaa/sphere.svg", content, 200, 200, false);
 
-		BufferedImage image = renderer.renderXMLToImage(content, 200, 200, false, null, null);
-
-		
-		try {
-			File file = new File("testing.png");
-			ImageIO.write(image, "png", file);
-		} catch (IOException e) {
-			//e.printStackTrace();
-			System.err.println("Error: Cannot write to file");
-		}
-
-	}
 }

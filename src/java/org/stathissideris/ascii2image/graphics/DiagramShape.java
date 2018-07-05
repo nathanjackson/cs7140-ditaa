@@ -66,8 +66,6 @@ public class DiagramShape extends DiagramComponent {
 
 	CustomShapeDefinition definition = null;
 
-	public static void main(String[] args) {
-	}
 
 	public static DiagramShape createArrowhead(TextGrid grid, TextGrid.Cell cell, int cellXSize, int cellYSize) {
 		if(!grid.isArrowhead(cell)) return null;

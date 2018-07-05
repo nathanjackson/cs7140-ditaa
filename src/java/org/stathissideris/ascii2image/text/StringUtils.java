@@ -139,31 +139,5 @@ public class StringUtils {
 		else return "";
 	}
 
-	
-	public static void main(String[] args){
-		System.out.println("1 "+StringUtils.firstToUpper("testing"));
-		System.out.println("2 "+StringUtils.firstToUpper(" testing"));
-		System.out.println("3 "+StringUtils.firstToUpper("_testing"));
-		System.out.println("4 "+StringUtils.firstToUpper("Testing"));
-		System.out.println("5 "+StringUtils.firstToUpper("ttesting"));
-		String path = "C:\\Files\\test.txt";
-		System.out.println(path);
-		System.out.println(StringUtils.getPath(path));
-		System.out.println(StringUtils.getBaseFilename(path));
-		System.out.println(StringUtils.getExtension(path));
-		
-		path = "test.txt";
-		System.out.println(path);
-		System.out.println(StringUtils.getPath(path));
-		System.out.println(StringUtils.getBaseFilename(path));
-		System.out.println(StringUtils.getExtension(path));
 
-		path = "test";
-		System.out.println(path);
-		System.out.println("path: "+StringUtils.getPath(path));
-		System.out.println("base: "+StringUtils.getBaseFilename(path));
-		System.out.println(" ext: "+StringUtils.getExtension(path));
-
-
-	}
 }

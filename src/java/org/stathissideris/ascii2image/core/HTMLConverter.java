@@ -47,16 +47,7 @@ public class HTMLConverter extends HTMLEditorKit {
 
 	private static final String TAG_CLASS = "textdiagram";
 	private static final String testDir = "tests/html-converter/";
-	
-	
-	public static void main(String[] args){		
-		new HTMLConverter().convertHTMLFile(
-			testDir + "index.html", 
-			testDir + "index2.html", 
-			"ditaa_diagram", 
-			"images", 
-			null);
-	}
+
 
 	/**
 	 * 
