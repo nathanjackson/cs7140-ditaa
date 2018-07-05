@@ -322,7 +322,7 @@ public class Diagram {
 			System.out.println("***** CLOSED: *****");
 		}
 		
-		ArrayList<DiagramComponent> closedShapes = new ArrayList<DiagramComponent>();
+		ArrayList<DiagramShape> closedShapes = new ArrayList<>();
 		sets = closed.iterator();
 		while(sets.hasNext()){
 			CellSet set = (CellSet) sets.next();
@@ -335,7 +335,7 @@ public class Diagram {
 			if(shape != null){
 				if(shape instanceof DiagramShape){
 					addToShapes((DiagramShape) shape);
-					closedShapes.add(shape);
+					closedShapes.add((DiagramShape)shape);
 				} else if(shape instanceof CompositeDiagramShape)
 					addToCompositeShapes((CompositeDiagramShape) shape);
 			}
