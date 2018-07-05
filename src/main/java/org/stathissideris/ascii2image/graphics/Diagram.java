@@ -24,6 +24,7 @@ import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 import org.stathissideris.ascii2image.core.ConversionOptions;
 import org.stathissideris.ascii2image.core.Pair;
@@ -145,7 +146,7 @@ public class Diagram {
 		//Find all the boundaries by using the special version of the filling method
 		//(fills in a different buffer than the buffer it reads from)
 		ArrayList<CellSet> boundarySetsStep2 = new ArrayList<CellSet>();
-		for(CellSet set : boundarySetsStep1) {			
+		for(CellSet set : boundarySetsStep1) {
 			//the fill buffer keeps track of which cells have been
 			//filled already
 			TextGrid fillBuffer = new TextGrid(width * 3, height * 3);
@@ -583,14 +584,15 @@ public class Diagram {
 		
 		//correct the color of the text objects according
 		//to the underlying color
-		for(DiagramText textObject : getTextObjects()) {
+		Consumer<DiagramText>  correctColor = textObject ->{
 			DiagramShape shape = findSmallestShapeIntersecting(textObject.getBounds());
-			if(shape != null 
-					&& shape.getFillColor() != null 
+			if(shape != null
+					&& shape.getFillColor() != null
 					&& BitmapRenderer.isColorDark(shape.getFillColor())) {
 				textObject.setColor(Color.white);
 			}
-		}
+		};
+		getTextObjects().forEach(correctColor);
 
 		//set outline to true for test within custom shapes
 		Iterator<DiagramShape> shapes = this.getAllDiagramShapes().iterator();
@@ -620,10 +622,8 @@ public class Diagram {
 	public ArrayList<DiagramShape> getAllDiagramShapes(){
 		ArrayList<DiagramShape> shapes = new ArrayList<DiagramShape>();
 		shapes.addAll(this.getShapes());
-		
-		for(CompositeDiagramShape compShape : getCompositeShapes()) {
-			shapes.addAll(compShape.getShapes());
-		}
+		Consumer<CompositeDiagramShape> addCompShapesToShapes = compShape ->shapes.addAll(compShape.getShapes());
+		getCompositeShapes().forEach(addCompShapesToShapes);
 		return shapes;		
 	}
 	
