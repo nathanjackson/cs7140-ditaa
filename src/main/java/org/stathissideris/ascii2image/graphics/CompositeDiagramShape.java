@@ -37,8 +37,7 @@ public class CompositeDiagramShape extends DiagramComponent {
 
 	private ArrayList<DiagramShape> shapes = new ArrayList<DiagramShape>();
 
-	public static void main(String[] args) {
-	}
+
 
 	public static DiagramComponent createFromBoundaryCells(
 			final TextGrid grid,

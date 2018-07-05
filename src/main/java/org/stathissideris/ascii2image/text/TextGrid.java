@@ -87,21 +87,6 @@ public class TextGrid {
 	public void addToMarkupTags(Collection<String> tags){
 		markupTags.addAll(tags);
 	}
-	
-	public static void main(String[] args) throws Exception {
-		TextGrid grid = new TextGrid();
-		grid.loadFrom("tests/text/art10.txt");
-
-		grid.writeStringTo(grid.new Cell(28, 1), "testing");
-
-		grid.findMarkupTags();
-		
-		grid.printDebug();
-		//System.out.println(grid.fillContinuousArea(0, 0, '-').size()+" cells filled");
-		//grid.fillContinuousArea(4, 4, '-');
-		//grid.getSubGrid(1,1,3,3).printDebug();
-		//grid.printDebug();
-	}
 
 
 	public TextGrid(){

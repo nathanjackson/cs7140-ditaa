@@ -136,16 +136,6 @@ public class FileUtils {
 			}
 		}
 	}
-		
-	public static void main(String[] args){
-		System.out.println(makeTargetPathname("C:\\Files\\papar.txt", "jpg", false));
-		System.out.println(makeTargetPathname("C:\\Files\\papar", "jpg", false));
-		System.out.println(makeTargetPathname("papar.txt", "jpg", false));
-		System.out.println(makeTargetPathname("/home/sideris/tsourekia/papar.txt", "jpg", false));
-		System.out.println(makeTargetPathname("D:\\diagram.max", "jpg", false));
-		System.out.println(makeAlternativePathname("C:\\Files\\papar.txt"));
-		System.out.println(makeAlternativePathname("C:\\Files\\papar"));
-		System.out.println(getExtension("pipi.jpeg"));
-		System.out.println(getExtension("pipi"));
-	}
+
+
 }
