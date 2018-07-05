@@ -34,6 +34,7 @@ import org.apache.commons.cli.PosixParser;
 import org.stathissideris.ascii2image.graphics.BitmapRenderer;
 import org.stathissideris.ascii2image.graphics.Diagram;
 import org.stathissideris.ascii2image.graphics.SVGRenderer;
+import org.stathissideris.ascii2image.graphics.EpsRenderer;
 import org.stathissideris.ascii2image.text.TextGrid;
 
 /**
@@ -111,6 +112,11 @@ public class CommandLineConverter {
 				.withArgName("FONT")
 				.create()
 				);
+        cmdLnOptions.addOption(
+                OptionBuilder.withLongOpt("eps")
+                .withDescription( "Write an EPS image as destination file." )
+                .create()
+                );
 
 //TODO: uncomment this for next version:
 //		cmdLnOptions.addOption(
@@ -259,6 +265,9 @@ public class CommandLineConverter {
 
 					PrintStream stream = stdOut ? System.out : new PrintStream(new FileOutputStream(toFilename));
 					stream.print(content);
+                } else if (cmdLine.hasOption("eps")) {
+                    PrintWriter writer = new PrintWriter(new FileOutputStream(toFilename));
+                    EpsRenderer.renderToEps(diagram, writer, options.renderingOptions);
 				} else {
 					RenderedImage image = new BitmapRenderer().renderToImage(diagram, options.renderingOptions);
 
