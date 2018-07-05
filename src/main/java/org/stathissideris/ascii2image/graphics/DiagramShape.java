@@ -328,22 +328,23 @@ public class DiagramShape extends DiagramComponent {
 		
 		if(DEBUG) System.out.println("points1: ");
 		HashMap points1 = new HashMap();
-		Iterator it = getPointsIterator(); 
-		while(it.hasNext()){
-			ShapePoint point = (ShapePoint) it.next(); 
+		Iterator it = getPointsIterator();
+
+		it.forEachRemaining(item->{
+			ShapePoint point = (ShapePoint) item;
 			points1.put( ""+((int) point.x)+","+((int) point.y), null);
 			if(DEBUG) System.out.println(((int) point.x)+", "+((int) point.y));
-		}
-		
+		});
+
 		if(DEBUG) System.out.println("points2: ");
 		HashMap points2 = new HashMap();
-		it = shape.getPointsIterator(); 
-		while(it.hasNext()){
-			ShapePoint point = (ShapePoint) it.next(); 
+		it = shape.getPointsIterator();
+		it.forEachRemaining(item->{
+			ShapePoint point = (ShapePoint) item;
 			points2.put( ""+((int) point.x)+","+((int) point.y), null);
 			if(DEBUG) System.out.println(((int) point.x)+", "+((int) point.y));
-		}
-		
+		});
+
 		it = points1.keySet().iterator();
 		while(it.hasNext()){
 			String key = (String) it.next();
