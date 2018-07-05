@@ -44,5 +44,8 @@ task mkexpected(type: JavaExec) {
 }
 
 clean {
-    delete fileTree('test-resources/images') { include '*' }
+    delete fileTree('test-resources/images') {
+        include '*'
+        exclude '.gitkeep'
+    }
 }
