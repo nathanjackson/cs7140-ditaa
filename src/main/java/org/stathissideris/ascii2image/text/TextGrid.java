@@ -592,7 +592,7 @@ public class TextGrid {
 	}
 
 	public void removeBoundaries(){
-		ArrayList toBeRemoved = new ArrayList();
+		ArrayList<Cell> toBeRemoved = new ArrayList<>();
 
 		int width = getWidth();
 		int height = getHeight();
@@ -1285,7 +1285,7 @@ public class TextGrid {
 	 * @param cells
 	 * @param c
 	 */
-	public void fillCellsWith(Iterable cells, char c){
+	public void fillCellsWith(Iterable<Cell> cells, char c){
 		Iterator<Cell> it = cells.iterator();
 		while(it.hasNext()){
 			Cell cell = it.next();
@@ -1434,7 +1434,7 @@ public class TextGrid {
 	private CellSet seedFillLine(Cell cell, char newChar){
 		CellSet cellsFilled = new CellSet();
 		
-		Stack stack = new Stack();
+		Stack<LineSegment> stack = new Stack<>();
 		
 		char oldChar = get(cell);
 		

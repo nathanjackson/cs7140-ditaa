@@ -329,7 +329,8 @@ public class DiagramShape extends DiagramComponent {
 		if(DEBUG) System.out.println("comparing shapes:");
 		
 		if(DEBUG) System.out.println("points1: ");
-		HashMap points1 = new HashMap();
+		//TODO: FIgure out what the heck this HashMap is for
+		HashMap<String,String> points1 = new HashMap<>();
 		Iterator it = getPointsIterator(); 
 		while(it.hasNext()){
 			ShapePoint point = (ShapePoint) it.next(); 
@@ -338,7 +339,7 @@ public class DiagramShape extends DiagramComponent {
 		}
 		
 		if(DEBUG) System.out.println("points2: ");
-		HashMap points2 = new HashMap();
+		HashMap<String, String> points2 = new HashMap<>();
 		it = shape.getPointsIterator(); 
 		while(it.hasNext()){
 			ShapePoint point = (ShapePoint) it.next(); 
@@ -497,8 +498,8 @@ public class DiagramShape extends DiagramComponent {
 		return path;
 	}
 	
-	public ArrayList getEdges(){
-		ArrayList edges = new ArrayList();
+	public ArrayList<ShapeEdge> getEdges(){
+		ArrayList<ShapeEdge> edges = new ArrayList<>();
 		if(this.points.size() == 1) return edges;
 		int noOfPoints = points.size();
 		for(int i = 0; i < noOfPoints - 1; i++){

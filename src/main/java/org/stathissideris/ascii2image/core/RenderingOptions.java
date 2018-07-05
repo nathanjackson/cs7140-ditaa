@@ -44,7 +44,7 @@ public class RenderingOptions {
 	
 	private Color backgroundColor = Color.white;
 
-	public enum ImageType { PNG, SVG };
+	public enum ImageType { PNG, SVG }
 
 	private ImageType imageType = ImageType.PNG;
 
