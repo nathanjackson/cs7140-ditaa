@@ -587,7 +587,7 @@ public class Diagram {
 			DiagramShape shape = findSmallestShapeIntersecting(textObject.getBounds());
 			if(shape != null 
 					&& shape.getFillColor() != null 
-					&& BitmapRenderer.isColorDark(shape.getFillColor())) {
+					&& EpsRenderer.isColorDark(shape.getFillColor())) {
 				textObject.setColor(Color.white);
 			}
 		}
