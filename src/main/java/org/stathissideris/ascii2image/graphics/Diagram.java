@@ -24,7 +24,6 @@ import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.function.Consumer;
 
 import org.stathissideris.ascii2image.core.ConversionOptions;
 import org.stathissideris.ascii2image.core.Pair;
@@ -37,7 +36,7 @@ import org.stathissideris.ascii2image.text.TextGrid.CellStringPair;
 import org.stathissideris.ascii2image.text.TextGrid.CellTagPair;
 
 /**
- * 
+ *
  * @author Efstathios Sideris
  */
 public class Diagram {
@@ -49,17 +48,17 @@ public class Diagram {
 	private ArrayList<DiagramShape> shapes = new ArrayList<DiagramShape>();
 	private ArrayList<CompositeDiagramShape> compositeShapes = new ArrayList<CompositeDiagramShape>();
 	private ArrayList<DiagramText> textObjects = new ArrayList<DiagramText>();
-	
+
 	private int width, height;
 	private int cellWidth, cellHeight;
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * <p>An outline of the inner workings of this very important (and monstrous)
 	 * constructor is presented here. Boundary processing is the first step
 	 * of the process:</p>
-	 * 
+	 *
 	 * <ol>
 	 *   <li>Copy the grid into a work grid and remove all type-on-line
 	 *       and point markers from the work grid</li>
@@ -89,10 +88,10 @@ public class Diagram {
 	 *   <li>If we had to eliminate any mixed shapes, we separate the found
 	 *   boundary sets again to open, closed or mixed.</li>
 	 * </ol>
-	 * 
+	 *
 	 * <p>At this stage, the boundary processing is all complete and we
 	 * proceed with using those boundaries to create the shapes:</p>
-	 * 
+	 *
 	 * <ol>
 	 *   <li>Create closed shapes.</li>
 	 *   <li>Create open shapes. That's when the line end corrections are
@@ -104,34 +103,34 @@ public class Diagram {
 	 *   <li>Create arrowheads.</p>
 	 *   <li>Create point markers.</p>
 	 * </ol>
-	 * 
+	 *
 	 * <p>Finally, the text processing occurs: [pending]</p>
-	 * 
+	 *
 	 * @param grid
 	 * @param cellWidth
 	 * @param cellHeight
 	 */
 	public Diagram(TextGrid grid, ConversionOptions options) {
-		
+
 		this.cellWidth = options.renderingOptions.getCellWidth();
 		this.cellHeight = options.renderingOptions.getCellHeight();
-		
+
 		width = grid.getWidth() * cellWidth;
 		height = grid.getHeight() * cellHeight;
-		
+
 		TextGrid workGrid = new TextGrid(grid);
 		workGrid.replaceTypeOnLine();
 		workGrid.replacePointMarkersOnLine();
 		if(DEBUG) workGrid.printDebug();
-		
+
 		int width = grid.getWidth();
 		int height = grid.getHeight();
 
-	
-		//split distinct shapes using AbstractionGrid 
+
+		//split distinct shapes using AbstractionGrid
 		AbstractionGrid temp = new AbstractionGrid(workGrid, workGrid.getAllBoundaries());
 		ArrayList<CellSet> boundarySetsStep1 = temp.getDistinctShapes();
-		
+
 		if(DEBUG){
 			System.out.println("******* Distinct shapes found using AbstractionGrid *******");
 			Iterator<CellSet> dit = boundarySetsStep1.iterator();
@@ -141,8 +140,8 @@ public class Diagram {
 			}
 			System.out.println("******* Same set of shapes after processing them by filling *******");
 		}
-		
-		
+
+
 		//Find all the boundaries by using the special version of the filling method
 		//(fills in a different buffer than the buffer it reads from)
 		ArrayList<CellSet> boundarySetsStep2 = new ArrayList<CellSet>();
@@ -150,11 +149,11 @@ public class Diagram {
 			//the fill buffer keeps track of which cells have been
 			//filled already
 			TextGrid fillBuffer = new TextGrid(width * 3, height * 3);
-			
+
 			for(int yi = 0; yi < height * 3; yi++){
 				for(int xi = 0; xi < width * 3; xi++){
 					if(fillBuffer.isBlank(xi, yi)){
-						
+
 						TextGrid copyGrid = new AbstractionGrid(workGrid, set).getCopyOfInternalBuffer();
 
 						CellSet boundaries =
@@ -162,21 +161,21 @@ public class Diagram {
 							.findBoundariesExpandingFrom(copyGrid.new Cell(xi, yi));
 						if(boundaries.size() == 0) continue; //i'm not sure why these occur
 						boundarySetsStep2.add(boundaries.makeScaledOneThirdEquivalent());
-					
+
 						copyGrid = new AbstractionGrid(workGrid, set).getCopyOfInternalBuffer();
 						CellSet filled =
 							copyGrid
 							.fillContinuousArea(copyGrid.new Cell(xi, yi), '*');
 						fillBuffer.fillCellsWith(filled, '*');
 						fillBuffer.fillCellsWith(boundaries, '-');
-						
+
 						if(DEBUG){
 							//System.out.println("Fill buffer:");
 							//fillBuffer.printDebug();
 							boundaries.makeScaledOneThirdEquivalent().printAsGrid();
 							System.out.println("-----------------------------------");
 						}
-						
+
 					}
 				}
 			}
@@ -195,7 +194,7 @@ public class Diagram {
 			}
 		}
 
-		int originalSize = boundarySetsStep2.size(); 
+		int originalSize = boundarySetsStep2.size();
 		boundarySetsStep2 = CellSet.removeDuplicateSets(boundarySetsStep2);
 		if(DEBUG) {
 			System.out.println(
@@ -203,18 +202,18 @@ public class Diagram {
 				+originalSize
 				+" shapes and now there are "
 				+boundarySetsStep2.size());
-		} 
-		
+		}
+
 
 		//split boundaries to open, closed and mixed
-		
+
 		if (DEBUG)
 			System.out.println("******* First evaluation of openess *******");
-		
+
 		ArrayList<CellSet> open = new ArrayList<CellSet>();
 		ArrayList<CellSet> closed = new ArrayList<CellSet>();
 		ArrayList<CellSet> mixed = new ArrayList<CellSet>();
-		
+
 		Iterator<CellSet> sets = boundarySetsStep2.iterator();
 		while(sets.hasNext()){
 			CellSet set = (CellSet) sets.next();
@@ -229,17 +228,17 @@ public class Diagram {
 				set.printAsGrid();
 			}
 		}
-		
+
 		boolean hadToEliminateMixed = false;
-		
+
 		if(mixed.size() > 0 && closed.size() > 0) {
 							// mixed shapes can be eliminated by
-							// subtracting all the closed shapes from them 
+							// subtracting all the closed shapes from them
 			if (DEBUG)
 				System.out.println("******* Eliminating mixed shapes (basic algorithm) *******");
-		
+
 			hadToEliminateMixed = true;
-			
+
 			//subtract from each of the mixed sets all the closed sets
 			sets = mixed.iterator();
 			while(sets.hasNext()){
@@ -260,7 +259,7 @@ public class Diagram {
 
 		} else if(mixed.size() > 0 && closed.size() == 0) {
 							// no closed shape exists, will have to
-							// handle mixed shape on its own 
+							// handle mixed shape on its own
 			// an example of this case is the following:
 			// +-----+
 			// |  A  |C                 B
@@ -272,7 +271,7 @@ public class Diagram {
 
 			if (DEBUG)
 				System.out.println("******* Eliminating mixed shapes (advanced algorithm for truly mixed shapes) *******");
-				
+
 			sets = mixed.iterator();
 			while(sets.hasNext()){
 				CellSet set = (CellSet) sets.next();
@@ -284,17 +283,17 @@ public class Diagram {
 			if (DEBUG)
 				System.out.println("No mixed shapes found. Skipped mixed shape elimination step");
 		}
-		
-		
+
+
 		if(hadToEliminateMixed){
 			if (DEBUG)
 				System.out.println("******* Second evaluation of openess *******");
-		
+
 			//split boundaries again to open, closed and mixed
 			open = new ArrayList<CellSet>();
 			closed = new ArrayList<CellSet>();
 			mixed = new ArrayList<CellSet>();
-		
+
 			sets = boundarySetsStep2.iterator();
 			while(sets.hasNext()){
 				CellSet set = (CellSet) sets.next();
@@ -312,27 +311,27 @@ public class Diagram {
 		}
 
 		boolean removedAnyObsolete = removeObsoleteShapes(workGrid, closed);
-		
+
 		boolean allCornersRound = false;
 		if(options.processingOptions.areAllCornersRound()) allCornersRound = true;
-		
+
 		//make shapes from the boundary sets
 		//make closed shapes
 		if(DEBUG_MAKE_SHAPES) {
 			System.out.println("***** MAKING SHAPES FROM BOUNDARY SETS *****");
 			System.out.println("***** CLOSED: *****");
 		}
-		
+
 		ArrayList<DiagramComponent> closedShapes = new ArrayList<DiagramComponent>();
 		sets = closed.iterator();
 		while(sets.hasNext()){
 			CellSet set = (CellSet) sets.next();
-			
+
 			if(DEBUG_MAKE_SHAPES) {
 				set.printAsGrid();
 			}
-			
-			DiagramComponent shape = DiagramComponent.createClosedFromBoundaryCells(workGrid, set, cellWidth, cellHeight, allCornersRound); 
+
+			DiagramComponent shape = DiagramComponent.createClosedFromBoundaryCells(workGrid, set, cellWidth, cellHeight, allCornersRound);
 			if(shape != null){
 				if(shape instanceof DiagramShape){
 					addToShapes((DiagramShape) shape);
@@ -351,17 +350,17 @@ public class Diagram {
 			CellSet set = (CellSet) sets.next();
 			if(set.size() == 1){ //single cell "shape"
 				TextGrid.Cell cell = (TextGrid.Cell) set.getFirst();
-				if(!grid.cellContainsDashedLineChar(cell)) { 
-					DiagramShape shape = DiagramShape.createSmallLine(workGrid, cell, cellWidth, cellHeight); 
+				if(!grid.cellContainsDashedLineChar(cell)) {
+					DiagramShape shape = DiagramShape.createSmallLine(workGrid, cell, cellWidth, cellHeight);
 					if(shape != null) {
-						addToShapes(shape); 
+						addToShapes(shape);
 						shape.connectEndsToAnchors(workGrid, this);
 					}
 				}
 			} else { //normal shape
                 if (DEBUG)
-                    System.out.println(set.getCellsAsString());				
-				
+                    System.out.println(set.getCellsAsString());
+
 				DiagramComponent shape =
 					CompositeDiagramShape
 						.createOpenFromBoundaryCells(
@@ -377,22 +376,22 @@ public class Diagram {
 						((DiagramShape) shape).moveEndsToCellEdges(grid, this);
 					}
 				}
-					
+
 			}
 		}
 
 		//assign color codes to shapes
 		//TODO: text on line should not change its color
-		
+
 		Iterator<CellColorPair> cellColorPairs = grid.findColorCodes().iterator();
 		while(cellColorPairs.hasNext()){
 			TextGrid.CellColorPair pair =
 				(TextGrid.CellColorPair) cellColorPairs.next();
-			
+
 			ShapePoint point =
 				new ShapePoint(getCellMidX(pair.cell), getCellMidY(pair.cell));
 			DiagramShape containingShape = findSmallestShapeContaining(point);
-			
+
 			if(containingShape != null)
 				containingShape.setFillColor(pair.color);
 		}
@@ -402,15 +401,15 @@ public class Diagram {
 		while(cellTagPairs.hasNext()){
 			TextGrid.CellTagPair pair =
 				(TextGrid.CellTagPair) cellTagPairs.next();
-			
+
 			ShapePoint point =
 				new ShapePoint(getCellMidX(pair.cell), getCellMidY(pair.cell));
-			
+
 			DiagramShape containingShape = findSmallestShapeContaining(point);
-			
+
 			//this tag is not within a shape, skip
 			if(containingShape == null) continue;
-			
+
 			//TODO: the code below could be a lot more concise
 			if(pair.tag.equals("d")){
 				CustomShapeDefinition def =
@@ -479,10 +478,10 @@ public class Diagram {
 				CustomShapeDefinition def =
 					options.processingOptions.getFromCustomShapes(pair.tag);
 				containingShape.setType(DiagramShape.TYPE_CUSTOM);
-				containingShape.setDefinition(def);						
+				containingShape.setDefinition(def);
 			}
 		}
-		
+
 		//make arrowheads
 		Iterator<Cell> arrowheadCells = workGrid.findArrowheads().iterator();
 		while(arrowheadCells.hasNext()){
@@ -491,7 +490,7 @@ public class Diagram {
 			if(arrowhead != null) addToShapes(arrowhead);
 			else System.err.println("Could not create arrowhead shape. Unexpected error.");
 		}
-		
+
 		//make point markers
 		Iterator<TextGrid.Cell> markersIt = grid.getPointMarkersOnLine().iterator();
 		while (markersIt.hasNext()) {
@@ -508,15 +507,15 @@ public class Diagram {
 		}
 
 		removeDuplicateShapes();
-		
+
 		if(DEBUG) System.out.println("Shape count: "+shapes.size());
 		if(DEBUG) System.out.println("Composite shape count: "+compositeShapes.size());
-		
+
 		//copy again
 		workGrid = new TextGrid(grid);
 		workGrid.removeNonText();
-		
-		
+
+
 		// ****** handle text *******
 		//break up text into groups
 		TextGrid textGroupGrid = new TextGrid(workGrid);
@@ -526,16 +525,16 @@ public class Diagram {
 		CellSet nonBlank = textGroupGrid.getAllNonBlank();
 		ArrayList<CellSet> textGroups = nonBlank.breakIntoDistinctBoundaries();
 		if(DEBUG) System.out.println(textGroups.size()+" text groups found");
-		
+
 		Font font = FontMeasurer.instance().getFontFor(cellHeight);
-		
+
 		Iterator<CellSet> textGroupIt = textGroups.iterator();
 		while(textGroupIt.hasNext()){
 			CellSet textGroupCellSet = (CellSet) textGroupIt.next();
-			
+
 			TextGrid isolationGrid = new TextGrid(width, height);
 			workGrid.copyCellsTo(textGroupCellSet, isolationGrid);
-			 
+
 			ArrayList<CellStringPair> strings = isolationGrid.findStrings();
 			Iterator<CellStringPair> it = strings.iterator();
 			while(it.hasNext()){
@@ -545,21 +544,21 @@ public class Diagram {
 				if (DEBUG)
 					System.out.println("Found string "+string);
 				TextGrid.Cell lastCell = isolationGrid.new Cell(cell.x + string.length() - 1, cell.y);
-			
+
 				int minX = getCellMinX(cell);
 				int y = getCellMaxY(cell);
 				int maxX = getCellMaxX(lastCell);
-			
+
 				DiagramText textObject;
 				if(FontMeasurer.instance().getWidthFor(string, font) > maxX - minX){ //does not fit horizontally
 					Font lessWideFont = FontMeasurer.instance().getFontFor(maxX - minX, string);
 					textObject = new DiagramText(minX, y, string, lessWideFont);
 				} else textObject = new DiagramText(minX, y, string, font);
-			
+
 				textObject.centerVerticallyBetween(getCellMinY(cell), getCellMaxY(cell));
-			
+
 				//TODO: if the strings start with bullets they should be aligned to the left
-			
+
 				//position text correctly
 				int otherStart = isolationGrid.otherStringsStartInTheSameColumn(cell);
 				int otherEnd = isolationGrid.otherStringsEndInTheSameColumn(lastCell);
@@ -574,25 +573,24 @@ public class Diagram {
 						textObject.centerHorizontallyBetween(minX, maxX);
 					}
 				}
-			
+
 				addToTextObjects(textObject);
 			}
 		}
-		
+
 		if (DEBUG)
 			System.out.println("Positioned text");
-		
+
 		//correct the color of the text objects according
 		//to the underlying color
-		Consumer<DiagramText>  correctColor = textObject ->{
+		for(DiagramText textObject : getTextObjects()) {
 			DiagramShape shape = findSmallestShapeIntersecting(textObject.getBounds());
 			if(shape != null
 					&& shape.getFillColor() != null
-					&& BitmapRenderer.isColorDark(shape.getFillColor())) {
+					&& EpsRenderer.isColorDark(shape.getFillColor())) {
 				textObject.setColor(Color.white);
 			}
-		};
-		getTextObjects().forEach(correctColor);
+		}
 
 		//set outline to true for test within custom shapes
 		Iterator<DiagramShape> shapes = this.getAllDiagramShapes().iterator();
@@ -607,23 +605,25 @@ public class Diagram {
 				}
 			}
 		}
-		
+
 		if (DEBUG)
 			System.out.println("Corrected color of text according to underlying color");
 
 	}
-	
+
 	/**
 	 * Returns a list of all DiagramShapes in the Diagram, including
 	 * the ones within CompositeDiagramShapes
-	 * 
+	 *
 	 * @return
 	 */
 	public ArrayList<DiagramShape> getAllDiagramShapes(){
 		ArrayList<DiagramShape> shapes = new ArrayList<DiagramShape>();
 		shapes.addAll(this.getShapes());
-		Consumer<CompositeDiagramShape> addCompShapesToShapes = compShape ->shapes.addAll(compShape.getShapes());
-		getCompositeShapes().forEach(addCompShapesToShapes);
+
+		for(CompositeDiagramShape compShape : getCompositeShapes()) {
+			shapes.addAll(compShape.getShapes());
+		}
 		return shapes;		
 	}
 	
