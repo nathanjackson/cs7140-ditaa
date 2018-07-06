@@ -45,10 +45,10 @@ public class Diagram {
 	private static final boolean DEBUG_VERBOSE = false;
 	private static final boolean DEBUG_MAKE_SHAPES = false;
 
-	private ArrayList<DiagramShape> shapes = new ArrayList<DiagramShape>();
-	private ArrayList<CompositeDiagramShape> compositeShapes = new ArrayList<CompositeDiagramShape>();
-	private ArrayList<DiagramText> textObjects = new ArrayList<DiagramText>();
-
+	private ArrayList<DiagramShape> shapes = new ArrayList<>();
+	private ArrayList<CompositeDiagramShape> compositeShapes = new ArrayList<>();
+	private ArrayList<DiagramText> textObjects = new ArrayList<>();
+	
 	private int width, height;
 	private int cellWidth, cellHeight;
 
@@ -321,8 +321,8 @@ public class Diagram {
 			System.out.println("***** MAKING SHAPES FROM BOUNDARY SETS *****");
 			System.out.println("***** CLOSED: *****");
 		}
-
-		ArrayList<DiagramComponent> closedShapes = new ArrayList<DiagramComponent>();
+		
+		ArrayList<DiagramShape> closedShapes = new ArrayList<>();
 		sets = closed.iterator();
 		while(sets.hasNext()){
 			CellSet set = (CellSet) sets.next();
@@ -335,7 +335,7 @@ public class Diagram {
 			if(shape != null){
 				if(shape instanceof DiagramShape){
 					addToShapes((DiagramShape) shape);
-					closedShapes.add(shape);
+					closedShapes.add((DiagramShape)shape);
 				} else if(shape instanceof CompositeDiagramShape)
 					addToCompositeShapes((CompositeDiagramShape) shape);
 			}
@@ -768,45 +768,49 @@ public class Diagram {
 		return Math.min(getCellWidth(), getCellHeight());
 	}
 	
-	private void separateCommonEdges(ArrayList shapes){
+	private void separateCommonEdges(ArrayList<DiagramShape> shapes){
 
 		float offset = getMinimumOfCellDimension() / 5;
 
-		ArrayList<ShapeEdge> edges = new ArrayList<ShapeEdge>();
+		ArrayList<ShapeEdge> edges = new ArrayList<>();
 
 		//get all adges
-		Iterator it = shapes.iterator();
+		Iterator<DiagramShape> it = shapes.iterator();
 		while (it.hasNext()) {
-			DiagramShape shape = (DiagramShape) it.next();
+			DiagramShape shape = it.next();
 			edges.addAll(shape.getEdges());
 		}
 		
 		//group edges into pairs of touching edges
-		ArrayList<Pair<ShapeEdge, ShapeEdge>> listOfPairs = new ArrayList<Pair<ShapeEdge, ShapeEdge>>();
-		it = edges.iterator();
+		ArrayList<Pair<ShapeEdge, ShapeEdge>> listOfPairs = new ArrayList<>();
+
+
+		Iterator<ShapeEdge> edgeIterator = edges.iterator();
+		//it = edges.iterator();
 		
 		//all-against-all touching test for the edges
 		int startIndex = 1; //skip some to avoid duplicate comparisons and self-to-self comparisons
 		
-		while(it.hasNext()){
-			ShapeEdge edge1 = (ShapeEdge) it.next();
+		while(edgeIterator.hasNext()){
+			ShapeEdge edge1 = edgeIterator.next();
 			
 			for(int k = startIndex; k < edges.size(); k++) {
 				ShapeEdge edge2 =  edges.get(k);
 				
 				if(edge1.touchesWith(edge2)) {
-					listOfPairs.add(new Pair<ShapeEdge, ShapeEdge>(edge1, edge2));
+					listOfPairs.add(new Pair<>(edge1, edge2));
 				}
 			}
 			startIndex++;
 		}
 		
-		ArrayList<ShapeEdge> movedEdges = new ArrayList<ShapeEdge>();
-		
+		ArrayList<ShapeEdge> movedEdges = new ArrayList<>();
+
+		Iterator<Pair<ShapeEdge, ShapeEdge>> pairsIterator = listOfPairs.iterator();
 		//move equivalent edges inwards
-		it = listOfPairs.iterator();
-		while(it.hasNext()){
-			Pair<ShapeEdge, ShapeEdge> pair = (Pair<ShapeEdge, ShapeEdge>) it.next();
+
+		while(pairsIterator.hasNext()){
+			Pair<ShapeEdge, ShapeEdge> pair = pairsIterator.next();
 			if(!movedEdges.contains(pair.first)) {
 				pair.first.moveInwardsBy(offset);
 				movedEdges.add(pair.first);
@@ -822,11 +826,11 @@ public class Diagram {
 	
 	//TODO: removes more than it should
 	private void removeDuplicateShapes() {
-		ArrayList originalShapes = new ArrayList();
+		ArrayList<DiagramShape> originalShapes = new ArrayList<>();
 
-		Iterator shapesIt = getShapesIterator();
+		Iterator<DiagramShape> shapesIt = getShapesIterator();
 		while(shapesIt.hasNext()){
-			DiagramShape shape = (DiagramShape) shapesIt.next();
+			DiagramShape shape = shapesIt.next();
 			boolean isOriginal = true;
 			Iterator originals = originalShapes.iterator();
 			while(originals.hasNext()){
@@ -891,7 +895,7 @@ public class Diagram {
 		shapes.add(shape);
 	}
 	
-	public Iterator getShapesIterator(){
+	public Iterator<DiagramShape> getShapesIterator(){
 		return shapes.iterator();
 	}	
 

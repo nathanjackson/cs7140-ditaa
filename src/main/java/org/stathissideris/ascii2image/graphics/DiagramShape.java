@@ -188,7 +188,7 @@ public class DiagramShape extends DiagramComponent {
 		points.add(point);
 	}
 	
-	public Iterator getPointsIterator(){
+	public Iterator<ShapePoint> getPointsIterator(){
 		return points.iterator();
 	}
 	
@@ -327,27 +327,27 @@ public class DiagramShape extends DiagramComponent {
 		if(DEBUG) System.out.println("comparing shapes:");
 		
 		if(DEBUG) System.out.println("points1: ");
-		HashMap points1 = new HashMap();
-		Iterator it = getPointsIterator();
+		HashMap<String, ShapePoint> points1 = new HashMap<>();
+		Iterator<ShapePoint> it = getPointsIterator();
 
 		it.forEachRemaining(item->{
-			ShapePoint point = (ShapePoint) item;
+			ShapePoint point = item;
 			points1.put( ""+((int) point.x)+","+((int) point.y), null);
 			if(DEBUG) System.out.println(((int) point.x)+", "+((int) point.y));
 		});
 
 		if(DEBUG) System.out.println("points2: ");
-		HashMap points2 = new HashMap();
-		it = shape.getPointsIterator();
+		HashMap<String, ShapePoint> points2 = new HashMap<>();
+		it = shape.getPointsIterator(); 
 		it.forEachRemaining(item->{
 			ShapePoint point = (ShapePoint) item;
 			points2.put( ""+((int) point.x)+","+((int) point.y), null);
 			if(DEBUG) System.out.println(((int) point.x)+", "+((int) point.y));
 		});
 
-		it = points1.keySet().iterator();
-		while(it.hasNext()){
-			String key = (String) it.next();
+		Iterator<String> keyIt = points1.keySet().iterator();
+		while(keyIt.hasNext()){
+			String key = (String) keyIt.next();
 			if(!points2.containsKey(key)) {
 				if (DEBUG)
 					System.out.println("\tare not equal");
@@ -496,8 +496,8 @@ public class DiagramShape extends DiagramComponent {
 		return path;
 	}
 	
-	public ArrayList getEdges(){
-		ArrayList edges = new ArrayList();
+	public ArrayList<ShapeEdge> getEdges(){
+		ArrayList<ShapeEdge> edges = new ArrayList<>();
 		if(this.points.size() == 1) return edges;
 		int noOfPoints = points.size();
 		for(int i = 0; i < noOfPoints - 1; i++){
