@@ -19,11 +19,9 @@
  */
 package org.stathissideris.ascii2image.core;
 
-import java.awt.image.RenderedImage;
 import java.io.*;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
 import javax.swing.text.html.HTMLEditorKit;
 
 import net.htmlparser.jericho.Attribute;
@@ -32,9 +30,7 @@ import net.htmlparser.jericho.OutputDocument;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
 
-import org.stathissideris.ascii2image.graphics.BitmapRenderer;
 import org.stathissideris.ascii2image.graphics.Diagram;
-import org.stathissideris.ascii2image.graphics.SVGRenderer;
 import org.stathissideris.ascii2image.text.TextGrid;
 
 /**
@@ -47,16 +43,7 @@ public class HTMLConverter extends HTMLEditorKit {
 
 	private static final String TAG_CLASS = "textdiagram";
 	private static final String testDir = "tests/html-converter/";
-	
-	
-	public static void main(String[] args){		
-		new HTMLConverter().convertHTMLFile(
-			testDir + "index.html", 
-			testDir + "index2.html", 
-			"ditaa_diagram", 
-			"images", 
-			null);
-	}
+
 
 	/**
 	 * 
@@ -186,36 +173,6 @@ public class HTMLConverter extends HTMLEditorKit {
 				System.exit(1);
 			}
 
-			Diagram diagram = new Diagram(grid, options);
-
-			if(options.renderingOptions.getImageType() == RenderingOptions.ImageType.SVG){
-
-				String content = new SVGRenderer().renderToImage(diagram, options.renderingOptions);
-
-				try {
-
-					PrintStream stream = new PrintStream(new FileOutputStream(imageFilename));
-
-					stream.print(content);
-
-				} catch (IOException e) {
-					System.err.println("Error: Cannot write to file "+filename+" -- skipping");
-					continue;
-				}
-
-			} else {
-				RenderedImage image = new BitmapRenderer().renderToImage(diagram, options.renderingOptions);
-
-				try {
-					File file = new File(imageFilename);
-					ImageIO.write(image, "png", file);
-				} catch (IOException e) {
-					//e.printStackTrace();
-					System.err.println("Error: Cannot write to file "+filename+" -- skipping");
-					continue;
-				}
-			}
-			
 			System.out.println("\t"+imageFilename);
 		}
 		

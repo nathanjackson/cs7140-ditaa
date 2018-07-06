@@ -66,8 +66,6 @@ public class DiagramShape extends DiagramComponent {
 
 	CustomShapeDefinition definition = null;
 
-	public static void main(String[] args) {
-	}
 
 	public static DiagramShape createArrowhead(TextGrid grid, TextGrid.Cell cell, int cellXSize, int cellYSize) {
 		if(!grid.isArrowhead(cell)) return null;
@@ -190,7 +188,7 @@ public class DiagramShape extends DiagramComponent {
 		points.add(point);
 	}
 	
-	public Iterator getPointsIterator(){
+	public Iterator<ShapePoint> getPointsIterator(){
 		return points.iterator();
 	}
 	
@@ -329,27 +327,27 @@ public class DiagramShape extends DiagramComponent {
 		if(DEBUG) System.out.println("comparing shapes:");
 		
 		if(DEBUG) System.out.println("points1: ");
-		//TODO: FIgure out what the heck this HashMap is for
-		HashMap<String,String> points1 = new HashMap<>();
-		Iterator it = getPointsIterator(); 
-		while(it.hasNext()){
-			ShapePoint point = (ShapePoint) it.next(); 
+		HashMap<String, ShapePoint> points1 = new HashMap<>();
+		Iterator<ShapePoint> it = getPointsIterator();
+
+		it.forEachRemaining(item->{
+			ShapePoint point = item;
 			points1.put( ""+((int) point.x)+","+((int) point.y), null);
 			if(DEBUG) System.out.println(((int) point.x)+", "+((int) point.y));
-		}
-		
+		});
+
 		if(DEBUG) System.out.println("points2: ");
-		HashMap<String, String> points2 = new HashMap<>();
+		HashMap<String, ShapePoint> points2 = new HashMap<>();
 		it = shape.getPointsIterator(); 
-		while(it.hasNext()){
-			ShapePoint point = (ShapePoint) it.next(); 
+		it.forEachRemaining(item->{
+			ShapePoint point = (ShapePoint) item;
 			points2.put( ""+((int) point.x)+","+((int) point.y), null);
 			if(DEBUG) System.out.println(((int) point.x)+", "+((int) point.y));
-		}
-		
-		it = points1.keySet().iterator();
-		while(it.hasNext()){
-			String key = (String) it.next();
+		});
+
+		Iterator<String> keyIt = points1.keySet().iterator();
+		while(keyIt.hasNext()){
+			String key = (String) keyIt.next();
 			if(!points2.containsKey(key)) {
 				if (DEBUG)
 					System.out.println("\tare not equal");

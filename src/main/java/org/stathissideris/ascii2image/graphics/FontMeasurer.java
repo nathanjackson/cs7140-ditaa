@@ -181,21 +181,5 @@ public class FontMeasurer {
 	
 	public FontMeasurer(){
 	}
-	
-	public static void main(String[] args) {
-		//FontMeasurer.instance().getFontFor(7);
-		float size = 12;
-		Font currentFont = new Font("Sans", Font.BOLD, (int) size);
-		if(DEBUG) System.out.println(currentFont.getSize());
-		currentFont = currentFont.deriveFont(--size);
-		System.out.println(currentFont.getSize());
-		currentFont = currentFont.deriveFont(--size);
-		System.out.println(currentFont.getSize());
-		currentFont = currentFont.deriveFont(--size);
-		System.out.println(currentFont.getSize());
-		currentFont = currentFont.deriveFont(--size);
-		System.out.println(currentFont.getSize());
-		currentFont = currentFont.deriveFont(--size);
-		System.out.println(currentFont.getSize());
-	}
+
 }

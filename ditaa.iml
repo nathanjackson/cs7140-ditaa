@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="file://lib/batik-bridge.jar" />
+    <libelement value="file://lib/batik-css.jar" />
+    <libelement value="file://lib/batik-gvt.jar" />
+    <libelement value="file://lib/batik-parser.jar" />
+    <libelement value="file://lib/batik-script.jar" />
+    <libelement value="file://lib/batik-svg-dom.jar" />
+    <libelement value="file://lib/batik-svggen.jar" />
+    <libelement value="file://lib/batik-util.jar" />
+    <libelement value="file://lib/batik-xml.jar" />
+    <libelement value="file://lib/js.jar" />
+    <libelement value="file://lib/xerces_2_5_0.jar" />
+    <libelement value="file://lib/xml-apis.jar" />
+    <libelement value="file://lib/batik-ext.jar" />
+    <libelement value="file://lib/batik-dom.jar" />
+    <libelement value="file://lib/batik-awt-util.jar" />
+    <libelement value="file://lib/commons-cli-1.2.jar" />
+    <libelement value="file://lib/jericho-html-3.1.jar" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="batik-bridge.jar">
+        <CLASSES>
+          <root url="file://lib/batik-bridge.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-css.jar">
+        <CLASSES>
+          <root url="file://lib/batik-css.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-gvt.jar">
+        <CLASSES>
+          <root url="file://lib/batik-gvt.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-parser.jar">
+        <CLASSES>
+          <root url="file://lib/batik-parser.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-script.jar">
+        <CLASSES>
+          <root url="file://lib/batik-script.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-svg-dom.jar">
+        <CLASSES>
+          <root url="file://lib/batik-svg-dom.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-svggen.jar">
+        <CLASSES>
+          <root url="file://lib/batik-svggen.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-util.jar">
+        <CLASSES>
+          <root url="file://lib/batik-util.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-xml.jar">
+        <CLASSES>
+          <root url="file://lib/batik-xml.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="js.jar">
+        <CLASSES>
+          <root url="file://lib/js.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xerces_2_5_0.jar">
+        <CLASSES>
+          <root url="file://lib/xerces_2_5_0.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xml-apis.jar">
+        <CLASSES>
+          <root url="file://lib/xml-apis.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="junit4">
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.12.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-ext.jar">
+        <CLASSES>
+          <root url="file://lib/batik-ext.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-dom.jar">
+        <CLASSES>
+          <root url="file://lib/batik-dom.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="batik-awt-util.jar">
+        <CLASSES>
+          <root url="file://lib/batik-awt-util.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-cli-1.2.jar">
+        <CLASSES>
+          <root url="file://lib/commons-cli-1.2.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jericho-html-3.1.jar">
+        <CLASSES>
+          <root url="file://lib/jericho-html-3.1.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

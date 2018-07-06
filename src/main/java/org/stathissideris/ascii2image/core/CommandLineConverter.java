@@ -19,16 +19,11 @@
  */
 package org.stathissideris.ascii2image.core;
 
-import java.awt.image.RenderedImage;
 import java.io.*;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.cli.*;
 //import org.apache.commons.cli.OptionBuilder;
-import org.stathissideris.ascii2image.graphics.BitmapRenderer;
 import org.stathissideris.ascii2image.graphics.Diagram;
-import org.stathissideris.ascii2image.graphics.SVGRenderer;
 import org.stathissideris.ascii2image.graphics.EpsRenderer;
 import org.stathissideris.ascii2image.text.TextGrid;
 
@@ -84,15 +79,9 @@ public class CommandLineConverter {
 				.hasArg()
 				.argName("BACKGROUND").build());
 
-		cmdLnOptions.addOption(Option.builder().longOpt("svg")
-				.desc("Write an SVG image as destination file." )
-				.hasArg()
-				.argName("FONT").build());
-    
-		cmdLnOptions.addOption(Option.builder().longOpt("svg-font-url")
-				.desc("SVG font URL")
-				.build());
-    cmdLnOptions.addOption(Option.builder().longOpt("eps")
+
+
+        cmdLnOptions.addOption(Option.builder().longOpt("eps")
 				.desc("Write an EPS image as destination file.")
 				.build());   
 
@@ -230,19 +219,9 @@ public class CommandLineConverter {
 
 			try {
 
-				if(cmdLine.hasOption("svg")){
-					String content = new SVGRenderer().renderToImage(diagram, options.renderingOptions);
-
-					PrintStream stream = stdOut ? System.out : new PrintStream(new FileOutputStream(toFilename));
-					stream.print(content);
-                } else if (cmdLine.hasOption("eps")) {
+				 if (cmdLine.hasOption("eps")) {
                     PrintWriter writer = new PrintWriter(new FileOutputStream(toFilename));
                     EpsRenderer.renderToEps(diagram, writer, options.renderingOptions);
-				} else {
-					RenderedImage image = new BitmapRenderer().renderToImage(diagram, options.renderingOptions);
-
-					OutputStream os = stdOut ? System.out : new FileOutputStream(toFilename);
-					ImageIO.write(image, "png", os);
 				}
 
 			} catch (IOException e) {
@@ -250,8 +229,6 @@ public class CommandLineConverter {
 				System.err.println("Error: Cannot write to file "+toFilename);
 				System.exit(1);
 			}
-
-			//BitmapRenderer.renderToPNG(diagram, toFilename, options.renderingOptions);
 
 			long endTime = System.currentTimeMillis();
 			long totalTime  = (endTime - startTime) / 1000;
