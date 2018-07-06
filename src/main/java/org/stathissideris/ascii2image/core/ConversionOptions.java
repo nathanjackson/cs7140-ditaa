@@ -106,14 +106,6 @@ public class ConversionOptions {
 			processingOptions.setCharacterEncoding(encoding);
 		}
 		
-		if (cmdLine.hasOption("svg")){
-			renderingOptions.setImageType(RenderingOptions.ImageType.SVG);
-		}
-
-		if (cmdLine.hasOption("svg-font-url")){
-			renderingOptions.setFontURL(cmdLine.getOptionValue("svg-font-url"));
-		}
-
 		ConfigurationParser configParser = new ConfigurationParser();
 		try {
 			for (Option curOption : cmdLine.getOptions()) {
@@ -142,52 +134,3 @@ public class ConversionOptions {
 		}
 	}
 }
-
-
-// may be supported at a later date:
-//String exportFormat = (String) cmdLine.getOptionValue("format");
-//if(exportFormat != null){
-//	exportFormat = exportFormat.toLowerCase();
-//	if(exportFormat == "jpeg" || exportFormat == "jpg"){
-//		processingOptions.setExportFormat(ProcessingOptions.FORMAT_JPEG);
-//	} else if(exportFormat == "png"){
-//		processingOptions.setExportFormat(ProcessingOptions.FORMAT_PNG);
-//	} else if(exportFormat == "gif"){
-//		processingOptions.setExportFormat(ProcessingOptions.FORMAT_GIF);
-//	}
-//}
-//
-//String colorCodeMode = (String) cmdLine.getOptionValue("color-codes");
-//if(colorCodeMode != null){
-//	if(colorCodeMode.equals("use"))
-//		processingOptions.setColorCodesProcessingMode(ProcessingOptions.USE_COLOR_CODES);
-//	else if(colorCodeMode.equals("ignore"))
-//		processingOptions.setColorCodesProcessingMode(ProcessingOptions.IGNORE_COLOR_CODES);
-//	else if(colorCodeMode.equals("render"))
-//		processingOptions.setColorCodesProcessingMode(ProcessingOptions.RENDER_COLOR_CODES);
-//}
-//
-//String tagsMode = (String) cmdLine.getOptionValue("tags");
-//if(tagsMode != null){
-//	if(tagsMode.equals("use"))
-//		processingOptions.setTagProcessingMode(ProcessingOptions.USE_TAGS);
-//	else if(tagsMode.equals("ignore"))
-//		processingOptions.setTagProcessingMode(ProcessingOptions.IGNORE_TAGS);
-//	else if(tagsMode.equals("render"))
-//		processingOptions.setTagProcessingMode(ProcessingOptions.RENDER_TAGS);
-//}
-//
-//
-//String markupMode = (String) cmdLine.getOptionValue("markup");
-//if(markupMode != null){
-//	if(markupMode.equals("use")){
-//		processingOptions.setColorCodesProcessingMode(ProcessingOptions.USE_COLOR_CODES);
-//		processingOptions.setTagProcessingMode(ProcessingOptions.USE_TAGS);
-//	} else if(markupMode.equals("ignore")){
-//		processingOptions.setColorCodesProcessingMode(ProcessingOptions.IGNORE_COLOR_CODES);
-//		processingOptions.setTagProcessingMode(ProcessingOptions.IGNORE_TAGS);
-//	} else if(markupMode.equals("render")){
-//		processingOptions.setColorCodesProcessingMode(ProcessingOptions.RENDER_COLOR_CODES);
-//		processingOptions.setTagProcessingMode(ProcessingOptions.RENDER_TAGS);
-//	}
-//}

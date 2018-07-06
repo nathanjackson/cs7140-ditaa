@@ -100,11 +100,11 @@ public class EpsRenderer {
         
         g2.setStroke(new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND));
         
-        ArrayList shapes = diagram.getAllDiagramShapes();
+        ArrayList<DiagramShape> shapes = diagram.getAllDiagramShapes();
         
         if(DEBUG) System.out.println("Rendering "+shapes.size()+" shapes (groups flattened)");
         
-        Iterator shapesIt;
+        Iterator<DiagramShape> shapesIt;
         if(options.dropShadows()){
             //render shadows
             shapesIt = shapes.iterator();
@@ -188,7 +188,7 @@ public class EpsRenderer {
         
         
         //find storage shapes
-        ArrayList storageShapes = new ArrayList();
+        ArrayList<DiagramShape> storageShapes = new ArrayList<>();
         shapesIt = shapes.iterator();
         while(shapesIt.hasNext()){
             DiagramShape shape = (DiagramShape) shapesIt.next();
@@ -235,10 +235,10 @@ public class EpsRenderer {
         
         
         //render the rest of the shapes
-        ArrayList pointMarkers = new ArrayList();
+        ArrayList<DiagramShape> pointMarkers = new ArrayList<>();
         shapesIt = shapes.iterator();
         while(shapesIt.hasNext()){
-            DiagramShape shape = (DiagramShape) shapesIt.next();
+            DiagramShape shape = shapesIt.next();
             if(shape.getType() == DiagramShape.TYPE_POINT_MARKER) {
                 pointMarkers.add(shape);
                 continue;
