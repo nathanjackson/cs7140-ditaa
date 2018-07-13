@@ -26,7 +26,7 @@ dependencies {
     implementation 'org.apache.xmlgraphics:batik-gvt:1.9'
     implementation 'org.apache.xmlgraphics:batik-codec:1.9'
     implementation 'org.apache.xmlgraphics:batik-bridge:1.9'
-
+    implementation 'commons-io:commons-io:2.5'
     testImplementation 'junit:junit:4.12'
 }
 
